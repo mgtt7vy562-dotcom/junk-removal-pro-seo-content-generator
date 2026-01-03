@@ -30,44 +30,71 @@ export default function PostResults({ posts, photoUrl }) {
     setTimeout(() => setCopiedPost(null), 2000);
   };
 
-  const shareToFacebook = () => {
+  const shareToFacebook = async () => {
     const text = posts.facebook.text;
+    const fullText = posts.facebook.hashtags ? `${text}\n\n${posts.facebook.hashtags}` : text;
+    await navigator.clipboard.writeText(fullText);
+    toast.success('Post copied to clipboard!');
     window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(text)}`, '_blank', 'width=600,height=400');
   };
 
-  const shareToTwitter = () => {
+  const shareToTwitter = async () => {
     const text = posts.twitter.text;
+    const fullText = posts.twitter.hashtags ? `${text}\n\n${posts.twitter.hashtags}` : text;
+    await navigator.clipboard.writeText(fullText);
+    toast.success('Post copied to clipboard!');
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank', 'width=600,height=400');
   };
 
-  const openPlatform = (platform) => {
+  const openPlatform = async (platform) => {
     const urls = {
       instagram: 'https://www.instagram.com/',
       nextdoor: 'https://nextdoor.com/',
       threads: 'https://www.threads.net/'
     };
-    copyPost(platform);
+    await copyPost(platform);
     window.open(urls[platform], '_blank');
   };
 
-  const shareToSelected = () => {
+  const shareToSelected = async () => {
     const selected = PLATFORMS.filter(p => selectedPlatforms[p.id]);
     if (selected.length === 0) {
       toast.error('Please select at least one platform');
       return;
     }
 
+    // Copy all posts to clipboard first
+    const allPosts = selected.map(platform => {
+      const post = posts[platform.id];
+      const fullText = post.hashtags ? `${post.text}\n\n${post.hashtags}` : post.text;
+      return `--- ${platform.name.toUpperCase()} ---\n${fullText}`;
+    }).join('\n\n');
+    
+    await navigator.clipboard.writeText(allPosts);
+
     selected.forEach((platform, index) => {
       setTimeout(() => {
         switch (platform.id) {
-          case 'facebook': shareToFacebook(); break;
-          case 'twitter': shareToTwitter(); break;
-          default: openPlatform(platform.id);
+          case 'facebook': 
+            window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(posts.facebook.text)}`, '_blank', 'width=600,height=400');
+            break;
+          case 'twitter': 
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(posts.twitter.text)}`, '_blank', 'width=600,height=400');
+            break;
+          case 'instagram':
+            window.open('https://www.instagram.com/', '_blank');
+            break;
+          case 'nextdoor':
+            window.open('https://nextdoor.com/', '_blank');
+            break;
+          case 'threads':
+            window.open('https://www.threads.net/', '_blank');
+            break;
         }
       }, index * 500);
     });
 
-    toast.success(`Opening ${selected.length} platform(s)...`);
+    toast.success(`Posts copied! Opening ${selected.length} platform(s)...`);
   };
 
   const toggleAll = (checked) => {
