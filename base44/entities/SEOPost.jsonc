@@ -1,0 +1,52 @@
+{
+  "name": "SEOPost",
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "description": "Company name"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "garage cleanout",
+        "estate cleanout",
+        "furniture removal",
+        "appliance removal",
+        "mattress disposal",
+        "hot tub removal",
+        "construction debris removal",
+        "yard waste removal",
+        "hoarding cleanout",
+        "foreclosure cleanout"
+      ],
+      "description": "Type of service"
+    },
+    "area": {
+      "type": "string",
+      "description": "Service area/neighborhood"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Business phone"
+    },
+    "email": {
+      "type": "string",
+      "description": "Business email"
+    },
+    "website": {
+      "type": "string",
+      "description": "Business website"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "Job photo URL"
+    }
+  },
+  "required": [
+    "company_name",
+    "service_type",
+    "area",
+    "phone"
+  ]
+}
