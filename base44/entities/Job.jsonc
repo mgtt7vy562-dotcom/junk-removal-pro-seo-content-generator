@@ -1,0 +1,91 @@
+{
+  "name": "Job",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Job date"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Customer phone"
+    },
+    "email": {
+      "type": "string",
+      "description": "Customer email"
+    },
+    "address": {
+      "type": "string",
+      "description": "Job address"
+    },
+    "marketing_source": {
+      "type": "string",
+      "enum": [
+        "Google",
+        "Yard Sign",
+        "Nextdoor",
+        "Facebook",
+        "Instagram",
+        "Referral",
+        "Repeat Customer",
+        "Realtor",
+        "Other"
+      ],
+      "description": "How customer found us"
+    },
+    "gross": {
+      "type": "number",
+      "description": "Total revenue"
+    },
+    "dump_fee": {
+      "type": "number",
+      "default": 0,
+      "description": "Dump fee expense"
+    },
+    "labor": {
+      "type": "number",
+      "default": 0,
+      "description": "Labor expense"
+    },
+    "gas": {
+      "type": "number",
+      "default": 0,
+      "description": "Gas expense"
+    },
+    "uhaul": {
+      "type": "number",
+      "default": 0,
+      "description": "U-Haul rental expense"
+    },
+    "other_expenses": {
+      "type": "number",
+      "default": 0,
+      "description": "Other expenses"
+    },
+    "total_expenses": {
+      "type": "number",
+      "description": "Total expenses"
+    },
+    "profit": {
+      "type": "number",
+      "description": "Net profit/loss"
+    },
+    "margin": {
+      "type": "number",
+      "description": "Profit margin percentage"
+    }
+  },
+  "required": [
+    "date",
+    "customer_name",
+    "phone",
+    "address",
+    "marketing_source",
+    "gross"
+  ]
+}
